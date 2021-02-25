@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,7 +6,6 @@ public class MoveDown : MonoBehaviour
 {
     // Class Variables
     public float speed = 2.0f;
-    private float yBound = -15.0f;
     private PlayerController playerControllerScript;
 
     // Start is called before the first frame update
@@ -22,10 +21,5 @@ public class MoveDown : MonoBehaviour
         if (playerControllerScript.gameOver == false) {
             transform.Translate(Vector2.down * Time.deltaTime * speed);
         }   
-
-        // If obstacle drifts offscreen, destroy it.
-        if(transform.position.x > yBound && gameObject.CompareTag("Obstacle") ){
-            Destroy(gameObject);
-        }
     }
 }
