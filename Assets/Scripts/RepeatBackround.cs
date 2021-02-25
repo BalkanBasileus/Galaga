@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,7 +12,7 @@ public class RepeatBackround : MonoBehaviour
     void Start()
     {
         startPos = transform.position;
-        repeatWidth = GetComponent<BoxCollider2D>().size.y / 2;
+        repeatWidth = GetComponent<BoxCollider2D>().size.y;
     }
 
     // Update is called once per frame
@@ -20,6 +20,7 @@ public class RepeatBackround : MonoBehaviour
     {
         // If background moves down by its repeat width, move it back to start position
         if (transform.position.y < startPos.y - repeatWidth) {
+            Debug.Log("here!");
             transform.position = startPos;
         }
     }
