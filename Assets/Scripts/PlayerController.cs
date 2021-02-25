@@ -1,3 +1,6 @@
+/*///////////////////////////////////////////////////////////////////////
+ *
+ //////////////////////////////////////////////////////////////////////*/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,11 +16,13 @@ public class PlayerController : MonoBehaviour
   private bool canShoot = true;
 
   public GameObject bulletPrefab;
+  public AudioClip shootSound;
+  private AudioSource playerAudio;
 
   // Start is called before the first frame update
   void Start()
   {
-        
+    playerAudio = GetComponent<AudioSource>();
   }
 
     // Update is called once per frame
@@ -37,6 +42,7 @@ public class PlayerController : MonoBehaviour
       canShoot = false;
       Invoke(nameof(CanShoot), shootInterval); // Prevent player from spamming lasers.
       Instantiate(bulletPrefab, transform.position, bulletPrefab.transform.rotation);
+      playerAudio.PlayOneShot(shootSound); // Play laser shot audio
     }
   }
 
@@ -59,4 +65,14 @@ public class PlayerController : MonoBehaviour
     // Prevent player from spamming lasers
     canShoot = true;
   }
+  
+
+  private void OnTriggerEnter( Collider other ) {
+    // If Galaga hit
+    if ( other.gameObject.CompareTag("EnemyBullet") ) {
+      
+      Debug.Log("GameOver!");
+    }
+  }
+
 }
