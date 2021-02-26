@@ -18,11 +18,14 @@ public class PlayerController : MonoBehaviour
   public GameObject bulletPrefab;
   public AudioClip shootSound;
   private AudioSource playerAudio;
+  private SpriteAnimator deathAnimation;
+  //private SpriteAnimator spriteAnimatorScript;
 
   // Start is called before the first frame update
   void Start()
   {
     playerAudio = GetComponent<AudioSource>();
+    deathAnimation = GetComponent<SpriteAnimator>();
   }
 
     // Update is called once per frame
@@ -67,11 +70,13 @@ public class PlayerController : MonoBehaviour
   }
   
 
-  private void OnTriggerEnter( Collider other ) {
+  private void OnTriggerEnter2D( Collider2D other ) {
     // If Galaga hit
     if ( other.gameObject.CompareTag("EnemyBullet") ) {
       
       Debug.Log("GameOver!");
+      //deathAnimation.RunDeathAnimation();
+      //Destroy(gameObject);
     }
   }
 

@@ -17,7 +17,7 @@ public class Respawn : MonoBehaviour
 		newGalaga.tag = "Galaga";
 		newGalaga.name = "Galaga";
 		spawning = false;
-		//newGalaga.AddComponent<PlayerController>();
+		//newGalaga.AddComponent<SpriteR>();
 	}
 	// Update is called once per frame
 	void Update() {

@@ -164,7 +164,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.153
+  m_Volume: 0.1
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -275,7 +275,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 2.8467143
+  orthographic size: 2.827472
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -831,6 +831,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7775809266289785424, guid: 2e7205daaac2ecd478c047d3e73956fd, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0b1ba89927a6e2f4cb075daf0043f79e, type: 3}
+    - target: {fileID: 7775809266289785424, guid: 2e7205daaac2ecd478c047d3e73956fd, type: 3}
+      propertyPath: m_DrawMode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7775809266289785426, guid: 2e7205daaac2ecd478c047d3e73956fd, type: 3}
       propertyPath: m_Name
       value: Galaga

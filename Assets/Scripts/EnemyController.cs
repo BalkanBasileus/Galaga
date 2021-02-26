@@ -1,7 +1,7 @@
-/*
+/*///////////////////////////////////////////////////////////////////////
  *
  * Note: Never start a coroutine in Update(). Else continuous.
- */
+ //////////////////////////////////////////////////////////////////////*/
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +12,8 @@ public class EnemyController : MonoBehaviour
   public float speed;
   private float shootInterval = 10.0f;
   public int direction = 1;
+  // private GameObject attackForce;
+  // public GameObject[] enemies;
   // private bool isShooting = true;
 
   public GameObject bulletPrefab;
@@ -20,6 +22,7 @@ public class EnemyController : MonoBehaviour
   void Start()
     {
       Shoot();
+      //ChooseAttackForce();
     }
 
     // Update is called once per frame
@@ -55,4 +58,49 @@ public class EnemyController : MonoBehaviour
       //isShooting = false;
     }
   }
+
+  /*
+  private void OnCollisionTrigger( Collision collision ) {
+    // If Galaga hit
+    if (collision.gameObject.CompareTag("Bullet")) {
+
+      Debug.Log("Hit!");
+    }
+  }
+  */
+
+  /*
+  int GetEnemyCount() {
+    int total = 0;
+    foreach (GameObject enemy in enemies) {
+      if (enemy != null) {
+        total += 1;
+      }
+    }
+    return total;
+  }
+  */
+
+  /*
+  IEnumerator ChooseAttackForce() {
+    yield return new WaitForSeconds(1);
+
+    if (!attackForce && GameObject.FindGameObjectWithTag("Galaga")) {
+      var enemyCount = GetEnemyCount();
+      if (enemyCount == 0) {
+        yield return new WaitForSeconds(1);
+      }
+      int attackerIndex = Random.Range(0, enemyCount);
+      foreach (GameObject enemy in enemies) {
+        if (enemy) {
+          enemyCount -= 1;
+        }
+        if (enemyCount == attackerIndex) {
+          attackForce = enemy;
+        }
+      }
+    }
+  }
+  */
+
 }

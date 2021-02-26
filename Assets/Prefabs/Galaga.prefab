@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7775809266289785388}
   - component: {fileID: 7775809266289785425}
   - component: {fileID: 7775809266289785391}
+  - component: {fileID: 2012874975077810081}
   m_Layer: 0
   m_Name: Galaga
   m_TagString: Galaga
@@ -29,8 +30,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7775809266289785426}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.2954, y: -9.179, z: -1}
-  m_LocalScale: {x: 0.2562351, y: 0.27797705, z: 1}
+  m_LocalPosition: {x: 0.2374, y: -9.2414, z: -1}
+  m_LocalScale: {x: 0.19824083, y: 0.21941838, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -270,3 +271,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2012874975077810081
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7775809266289785426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44e7d883ab6a88649be79ec9e5a84efb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frameArray:
+  - {fileID: -7031895539059923680, guid: 992d4d968ebf76945baa1d887514b7b0, type: 3}
+  - {fileID: 4703509520341078336, guid: 992d4d968ebf76945baa1d887514b7b0, type: 3}
+  - {fileID: 344336923103916608, guid: 992d4d968ebf76945baa1d887514b7b0, type: 3}
+  - {fileID: -1157247778931301337, guid: 992d4d968ebf76945baa1d887514b7b0, type: 3}
