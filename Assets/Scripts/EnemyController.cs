@@ -12,7 +12,7 @@ public class EnemyController : MonoBehaviour
   public float speed;
   private float shootInterval = 10.0f;
   public int direction = 1;
-  private int scoreValue = 10;
+  private int pointValue = 100;
   // private GameObject attackForce;
   // public GameObject[] enemies;
   // private bool isShooting = true;
@@ -24,6 +24,7 @@ public class EnemyController : MonoBehaviour
   void Start()
     {
       Shoot();
+      gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
       //ChooseAttackForce();
     }
 
@@ -63,11 +64,11 @@ public class EnemyController : MonoBehaviour
 
   private void OnTriggerEnter2D( Collider2D other ) {
     // If Enemy Bee hit
-    if (other.gameObject.CompareTag("EnemyBullet")) {
+    if (other.gameObject.CompareTag("Bullet")) {
 
       // Play explosion
       // playerAudio.PlayOneShot(deathSound);
-      gameManager.UpdateScore(scoreValue);
+      gameManager.UpdateScore(pointValue);
     }
   }
 
