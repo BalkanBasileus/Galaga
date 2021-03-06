@@ -19,11 +19,11 @@ public class Sounds : MonoBehaviour
     // Update is called once per frame
   void Update()
   {
-    galaga = GameObject.Find("Galaga");
+    // Call again for new galaga if they die
+    galaga = GameObject.Find("Galaga"); 
 
-   if (galaga == null) {
+   if (galaga == null) { // If Galaga dead
         playerAudio.PlayOneShot(deathSound);
-       // playerAudio.Stop();
     }
   }
 }

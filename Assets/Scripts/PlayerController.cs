@@ -17,6 +17,7 @@ public class PlayerController : MonoBehaviour
 
   public GameObject bulletPrefab;
   public AudioClip shootSound;
+  public AudioClip deathSound;
   private AudioSource playerAudio;
   private SpriteAnimator deathAnimation;
   //private SpriteAnimator spriteAnimatorScript;
@@ -69,15 +70,15 @@ public class PlayerController : MonoBehaviour
     canShoot = true;
   }
   
-
+  
   private void OnTriggerEnter2D( Collider2D other ) {
     // If Galaga hit
     if ( other.gameObject.CompareTag("EnemyBullet") ) {
       
-      Debug.Log("GameOver!");
-      //deathAnimation.RunDeathAnimation();
-      //Destroy(gameObject);
+      // Play explosion
+      // playerAudio.PlayOneShot(deathSound);
     }
   }
+  
 
 }

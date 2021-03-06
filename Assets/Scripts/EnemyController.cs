@@ -12,11 +12,13 @@ public class EnemyController : MonoBehaviour
   public float speed;
   private float shootInterval = 10.0f;
   public int direction = 1;
+  private int scoreValue = 10;
   // private GameObject attackForce;
   // public GameObject[] enemies;
   // private bool isShooting = true;
 
   public GameObject bulletPrefab;
+  private GameManager gameManager;
 
   // Start is called before the first frame update
   void Start()
@@ -58,6 +60,17 @@ public class EnemyController : MonoBehaviour
       //isShooting = false;
     }
   }
+
+  private void OnTriggerEnter2D( Collider2D other ) {
+    // If Enemy Bee hit
+    if (other.gameObject.CompareTag("EnemyBullet")) {
+
+      // Play explosion
+      // playerAudio.PlayOneShot(deathSound);
+      gameManager.UpdateScore(scoreValue);
+    }
+  }
+
 
   /*
   private void OnCollisionTrigger( Collision collision ) {

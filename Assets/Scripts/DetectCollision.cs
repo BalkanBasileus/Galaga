@@ -13,7 +13,7 @@ public class DetectCollision : MonoBehaviour
 
   // Start is called before the first frame update
   void Start() {
-
+    
   }
 
   // Update is called once per frame
@@ -25,15 +25,15 @@ public class DetectCollision : MonoBehaviour
 
     // If Galaga Bullet hits enemy bee
     if( other.gameObject.CompareTag("EnemyBee") && gameObject.CompareTag("Bullet") ) {
-      Debug.Log("Hit!");
+     // Debug.Log("Hit!");
       Destroy(gameObject);
-      Destroy(other.gameObject);
+      // Destroy(other.gameObject); call destroy in player controller to destroy enemy
     }
     // If enemy bullet hits Galaga
     else if (other.gameObject.CompareTag("Galaga") && gameObject.CompareTag("EnemyBullet") ) {
-      Debug.Log("GameOver!");
+     // Debug.Log("Galaga Hit!");
       Destroy(gameObject);
-      Destroy(other.gameObject);
+      //Destroy(other.gameObject); call destroy in player controller to destroy galga
     }
   }
 }

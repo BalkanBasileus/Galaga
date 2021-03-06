@@ -7,7 +7,6 @@ public class Respawn : MonoBehaviour
 	public int left = 3;
 	public bool spawning = false;
 	public GameObject galagaPref;
-	//PlayerController PlayerController;
 
 	IEnumerator SpawnGalaga() {
 		spawning = true;

@@ -10,21 +10,26 @@ public class SpriteAnimator : MonoBehaviour
   [SerializeField] private Sprite[] frameArray;
   private int currentFrame;
   private float timer;
-  private float framerate = 0.2f;
+  public float framerate = 0.15f;
   private SpriteRenderer spriteRenderer;
   private bool loop = false;
   private bool isPlaying = true;
+  private bool hit;
 
   // Start is called before the first frame update
   void Start()
   {
     spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+    hit = false;
   }
 
   // Update is called once per frame
   void Update()
   {
-    RunDeathAnimation();
+    // If galaga hit.
+    if( hit ) {
+      RunDeathAnimation();
+    }
   }
 
   private void StopPlaying() {
@@ -32,7 +37,7 @@ public class SpriteAnimator : MonoBehaviour
   }
 
   public void RunDeathAnimation() {
-
+   // Debug.Log("RunDeathAnimation!");
     timer += Time.deltaTime;
 
     if (!isPlaying) {
@@ -45,10 +50,36 @@ public class SpriteAnimator : MonoBehaviour
 
       if (!loop && currentFrame == 0) {
         StopPlaying();
+        
+        // Destroy Galaga or Enemy here, after animation!
+        Destroy(gameObject); 
       }
       else {
         spriteRenderer.sprite = frameArray[currentFrame];
       }
+    }
+  }
+  /*
+  public void PlayAnimation(Sprite[] frameArray) {
+    //
+    this.frameArray = frameArray;
+    currentFrame = 0;
+    timer = 0f;
+    spriteRenderer.sprite = frameArray[currentFrame];
+  }
+  */
+
+  private void OnTriggerEnter2D( Collider2D other ) {
+    
+    // If Galaga hit   
+    if (other.gameObject.CompareTag("EnemyBullet") && gameObject.CompareTag("Galaga") ) {
+
+      hit = true;
+    }
+    // If Enemy hit
+    if (other.gameObject.CompareTag("Bullet") && gameObject.CompareTag("EnemyBee") ) {
+
+      hit = true;
     }
   }
 }

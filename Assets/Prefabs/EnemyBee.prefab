@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6702318965085115387}
   - component: {fileID: 6702318965085115390}
   - component: {fileID: 6702318965085115141}
+  - component: {fileID: -3508444707811299457}
   m_Layer: 0
   m_Name: EnemyBee
   m_TagString: EnemyBee
@@ -179,3 +180,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &-3508444707811299457
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6702318965085115391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44e7d883ab6a88649be79ec9e5a84efb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  frameArray:
+  - {fileID: 5023912819059519410, guid: 8892aa893ed477c49a793a262140f8f0, type: 3}
+  - {fileID: -8219618193473390447, guid: 8892aa893ed477c49a793a262140f8f0, type: 3}
+  - {fileID: -6159426776236573817, guid: 8892aa893ed477c49a793a262140f8f0, type: 3}
+  - {fileID: -7556598021721848230, guid: 8892aa893ed477c49a793a262140f8f0, type: 3}
+  - {fileID: 8839547695717447740, guid: 8892aa893ed477c49a793a262140f8f0, type: 3}
+  framerate: 0.1
