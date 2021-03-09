@@ -12,7 +12,9 @@ public class GameManager : MonoBehaviour
   // public float spawnRate = 2.0f;
   private int score;
   public bool isGameActive;
-  public TextMeshProUGUI scoreText;
+  //public TextMeshProUGUI scoreText;
+  public Text scoreText;
+  public Text pointsText;
   public TextMeshProUGUI gameOverText;
   public Button restartButton;
 
@@ -41,7 +43,7 @@ public class GameManager : MonoBehaviour
   // Update Score
   public void UpdateScore( int scoreToAdd ) {
     score += scoreToAdd;
-    scoreText.text = "Score: " + score;
+    pointsText.text = score.ToString();
   }
 
   public void GameOver() {
