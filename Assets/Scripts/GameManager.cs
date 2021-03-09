@@ -9,36 +9,59 @@ public class GameManager : MonoBehaviour
 {
   // Variables
   // public List<GameObject> targets;
-  // public float spawnRate = 2.0f;
+  private float spawnRate = 0.1f;
+  private float distance = 0.5f;
+  private float attackTime = 2.0f;
   private int score;
   public bool isGameActive;
-  //public TextMeshProUGUI scoreText;
+  private int maxColumn = 10;
   public Text scoreText;
   public Text pointsText;
   public TextMeshProUGUI gameOverText;
   public Button restartButton;
+  public GameObject enemy;
+  public GameObject specificEnemy;
+  private EnemyController enemyController;
+  private Vector3 startPos = new Vector3(-3, -4.5f, -1);
 
   // Start is called before the first frame update
   void Start() {
     isGameActive = true;
-    // StartCoroutine(SpawnTarget());
+    StartCoroutine( SpawnTarget() );
     UpdateScore(0);
   }
 
   // Update is called once per frame
   void Update() {
 
-  }
-  /*
-  IEnumerator SpawnTarget() {
+    countDown();
+ 
+    // Initiate attack every n seconds.
+    if (attackTime == 0) {
 
-    while (isGameActive) {
-      yield return new WaitForSeconds(spawnRate);
-      int index = Random.Range(0, targets.Count);
-      Instantiate(targets[index]);
+     // StartCoroutine(ChooseAttackForce());
+      Attack();
     }
   }
-  */
+  
+  public IEnumerator SpawnTarget() {
+
+    yield return new WaitForSeconds(spawnRate);
+      
+    // Spawn Brigade of Enemy Bees. Update pos.
+    for(int i = 0; i< maxColumn; i++) {
+      
+      // Provide space for two main columns
+      if(i % 5 == 0) {
+        startPos.x += distance;
+        continue;
+      }
+
+      Instantiate(enemy, startPos, enemy.transform.rotation);
+      startPos.x += distance;
+    }
+  }
+  
 
   // Update Score
   public void UpdateScore( int scoreToAdd ) {
@@ -56,5 +79,55 @@ public class GameManager : MonoBehaviour
     SceneManager.LoadScene(SceneManager.GetActiveScene().name);
   }
 
+  // Display time countdown
+  private void countDown() {
+
+    attackTime -= Time.deltaTime;
+  }
+  /*
+  void Attack() {
+    //enemy.transform.parent = null;
+   // specificEnemy = GameObject.FindGameObjectWithTag("EnemyBee");
+
+    EnemyController enemyBee = specificEnemy.GetComponent<EnemyController>();
+    enemyBee.attackVector();
+  }
+  */
+
+  public void attackVector() {
+    Vector3 pos = transform.position;
+    pos.z = -1.0f;
+
+    if (pos.y < -10.0f) {
+      pos.y = 1.0f;
+    }
+
+    var speed = 1.0f;
+    pos.y = pos.y - Time.deltaTime * speed;
+    pos.x = Mathf.Sin(pos.y) * 3;
+    transform.position = pos;
+  }
+
+  /*
+  IEnumerator ChooseAttackForce() {
+    yield return new WaitForSeconds(1);
+
+    if (!specificEnemy && GameObject.FindGameObjectWithTag("Galaga")) {
+      //var enemyCount = GetEnemyCount();
+      //if (enemyCount == 0) {
+       // yield return new WaitForSeconds(1);
+    //  }
+      int attackerIndex = Random.Range(0, enemyCount);
+      foreach (GameObject enemy in enemies) {
+        if (enemy) {
+          enemyCount -= 1;
+        }
+        if (enemyCount == attackerIndex) {
+          specificEnemy = enemy;
+        }
+      }
+    }
+  }
+  */
 
 }

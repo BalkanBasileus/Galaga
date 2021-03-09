@@ -10,9 +10,12 @@ public class EnemyController : MonoBehaviour
 {
   // Class Variables
   public float speed;
-  private float shootInterval = 10.0f;
+  //private float shootInterval = 10.0f;
+ // private float attackTime = 5.0f;
   public int direction = 1;
   private int pointValue = 100;
+  private Vector3 startPosition;
+  private float travelDistance = 0.5f;
   // private GameObject attackForce;
   // public GameObject[] enemies;
   // private bool isShooting = true;
@@ -23,28 +26,31 @@ public class EnemyController : MonoBehaviour
   // Start is called before the first frame update
   void Start()
     {
-      Shoot();
+     // Shoot();
       gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-      //ChooseAttackForce();
-    }
+      startPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z); // Initial pos of Enemy
+  }
 
     // Update is called once per frame
     void Update()
     {
-      Move();
+      Move(startPosition);
     }
 
-  void Move() {
+  void Move(Vector3 startPosition) {
     // Move enemy bee left and right
 
-    var pos = transform.position;
-    pos.x = pos.x + direction * Time.deltaTime * speed;
-    pos.x = Mathf.Clamp(pos.x, -1, 1);
+    var pos = transform.position; // Get current pos.
 
+    pos.x = pos.x + direction * Time.deltaTime * speed;
+    pos.x = Mathf.Clamp(pos.x, startPosition.x - travelDistance, startPosition.x + travelDistance);
+
+    // Update Pos next call.
     transform.position = pos;
 
-    if (pos.x == -1 || pos.x == 1) {
-      direction = -1 * direction;
+    // Slide side to side
+    if (pos.x == startPosition.x - travelDistance || pos.x == startPosition.x + travelDistance) {
+      direction = -1 * direction; // Switch direction
     }
   }
 
@@ -72,16 +78,25 @@ public class EnemyController : MonoBehaviour
     }
   }
 
+  public void attackVector() {
+    Vector3 pos = transform.position;
+    pos.z = -1.0f;
 
-  /*
-  private void OnCollisionTrigger( Collision collision ) {
-    // If Galaga hit
-    if (collision.gameObject.CompareTag("Bullet")) {
-
-      Debug.Log("Hit!");
+    if (pos.y < -10.0f) {
+      pos.y = 1.0f;
     }
+
+    var speed = 1.0f;
+    pos.y = pos.y - Time.deltaTime * speed;
+    pos.x = Mathf.Sin(pos.y) * 3;
+    transform.position = pos;
   }
-  */
+  /*
+  private void countDown() {
+
+    attackTime -= Time.deltaTime;
+  }
+  8/
 
   /*
   int GetEnemyCount() {
