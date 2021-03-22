@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
   public float shootInterval = 0.8f;
   public bool gameOver = false;
   private bool canShoot = true;
+  private bool isDead;
+  private int lives = 3;
 
   public GameObject bulletPrefab;
   public AudioClip shootSound;
@@ -26,7 +28,8 @@ public class PlayerController : MonoBehaviour
   void Start()
   {
     playerAudio = GetComponent<AudioSource>();
-    deathAnimation = GetComponent<SpriteAnimator>();
+    deathAnimation = GetComponent<SpriteAnimator>();    
+    isDead = false;
   }
 
     // Update is called once per frame
@@ -73,12 +76,22 @@ public class PlayerController : MonoBehaviour
   
   private void OnTriggerEnter2D( Collider2D other ) {
     // If Galaga hit
-    if ( other.gameObject.CompareTag("EnemyBullet") ) {
-      
+    if ( other.gameObject.CompareTag("EnemyBullet") || other.gameObject.CompareTag("EnemyBee") ) {
+
+      lives--;
+      isDead = true;
       // Play explosion
       // playerAudio.PlayOneShot(deathSound);
+      
     }
   }
   
+  public bool galagaDead() {
+    return isDead;
+  }
+
+  public int galagaLives() {
+    return lives;
+  }
 
 }

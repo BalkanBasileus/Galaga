@@ -26,7 +26,7 @@ public class EnemyController : MonoBehaviour
   // Start is called before the first frame update
   void Start()
     {
-     // Shoot();
+      Shoot();
       gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
       startPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z); // Initial pos of Enemy
   }

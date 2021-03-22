@@ -52,6 +52,7 @@ public class SpriteAnimator : MonoBehaviour
         StopPlaying();
         
         // Destroy Galaga or Enemy here, after animation!
+        // Cannot call in PlayerController script.
         Destroy(gameObject); 
       }
       else {

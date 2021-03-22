@@ -20,7 +20,7 @@ public class RepeatBackround : MonoBehaviour
     {
         // If background moves down by its repeat width, move it back to start position
         if (transform.position.y < startPos.y - repeatWidth) {
-            Debug.Log("here!");
+
             transform.position = startPos;
         }
     }

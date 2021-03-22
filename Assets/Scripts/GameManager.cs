@@ -13,26 +13,40 @@ public class GameManager : MonoBehaviour
   private float distance = 0.5f;
   private float attackTime = 2.0f;
   private int score;
-  public bool isGameActive;
   private int maxColumn = 10;
+  private int lives = 3;
+  public bool isGameActive;
+  public bool spawning = false;
   public Text scoreText;
   public Text pointsText;
   public TextMeshProUGUI gameOverText;
   public Button restartButton;
   public GameObject enemy;
-  public GameObject specificEnemy;
+  public GameObject galaga;
+  public Image life1,life2,life3;
   private EnemyController enemyController;
+  private PlayerController galagaController;
   private Vector3 startPos = new Vector3(-3, -4.5f, -1);
+  private Vector3 lifePos = new Vector3(-5,-9,-1);
 
   // Start is called before the first frame update
   void Start() {
     isGameActive = true;
     StartCoroutine( SpawnTarget() );
     UpdateScore(0);
+    galagaController = GameObject.Find("Galaga").GetComponent<PlayerController>();
+   
   }
 
   // Update is called once per frame
   void Update() {
+
+    GameObject galaga = GameObject.FindGameObjectWithTag("Galaga");
+    if (!galaga && !spawning && lives > 0) {
+      lives -= 1;
+      StartCoroutine(SpawnGalaga());
+     // Debug.Log("lives: " + lives.ToString());
+    }
 
     countDown();
  
@@ -40,8 +54,10 @@ public class GameManager : MonoBehaviour
     if (attackTime == 0) {
 
      // StartCoroutine(ChooseAttackForce());
-      Attack();
+     // Attack();
     }
+
+    checkLives();
   }
   
   public IEnumerator SpawnTarget() {
@@ -61,7 +77,18 @@ public class GameManager : MonoBehaviour
       startPos.x += distance;
     }
   }
-  
+
+  // Spawn Galaga
+  IEnumerator SpawnGalaga() {
+    spawning = true;
+    yield return new WaitForSeconds(1f);
+    GameObject newGalaga = (GameObject)Instantiate(galaga);
+    newGalaga.transform.position = new Vector3(0.29f, -9.17f, -1);
+    newGalaga.tag = "Galaga";
+    newGalaga.name = "Galaga";
+    spawning = false;
+  }
+
 
   // Update Score
   public void UpdateScore( int scoreToAdd ) {
@@ -84,6 +111,44 @@ public class GameManager : MonoBehaviour
 
     attackTime -= Time.deltaTime;
   }
+
+  private void checkLives() {
+    // Check galaga lives and update UI
+
+
+    if (lives == 0) {
+      life1.gameObject.SetActive(false);
+      life2.gameObject.SetActive(false);
+      life3.gameObject.SetActive(false);
+    }
+    if (lives == 1) {
+      life1.gameObject.SetActive(true);
+      life2.gameObject.SetActive(false);
+      life3.gameObject.SetActive(false);
+    }
+    if (lives == 2) {
+      life1.gameObject.SetActive(true);
+      life2.gameObject.SetActive(true);
+      life3.gameObject.SetActive(false);
+    }
+    if (lives == 3) {
+      life1.gameObject.SetActive(true);
+      life2.gameObject.SetActive(true);
+      life3.gameObject.SetActive(true);
+    }
+  }
+  /*
+  public IEnumerator displayLives() {
+
+    yield return new WaitForSeconds(0.1f);
+
+    for(int i = 0; i < 3; i++) {
+      Instantiate(life, lifePos, enemy.transform.rotation);
+      lifePos.x += 0.5f;
+    }
+  }
+  */
+
   /*
   void Attack() {
     //enemy.transform.parent = null;
