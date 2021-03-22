@@ -23,11 +23,15 @@ public class EnemyController : MonoBehaviour
   public GameObject bulletPrefab;
   private GameManager gameManager;
 
+  private AudioSource enemyAudio;
+  public AudioClip deathNoise;
+
   // Start is called before the first frame update
   void Start()
     {
       Shoot();
       gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+      enemyAudio = GetComponent<AudioSource>();
       startPosition = new Vector3(transform.position.x, transform.position.y, transform.position.z); // Initial pos of Enemy
   }
 
@@ -72,8 +76,8 @@ public class EnemyController : MonoBehaviour
     // If Enemy Bee hit
     if (other.gameObject.CompareTag("Bullet")) {
 
-      // Play explosion
-      // playerAudio.PlayOneShot(deathSound);
+      // Update Score
+      enemyAudio.PlayOneShot(deathNoise);
       gameManager.UpdateScore(pointValue);
     }
   }

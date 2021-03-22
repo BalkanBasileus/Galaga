@@ -81,7 +81,7 @@ public class PlayerController : MonoBehaviour
       lives--;
       isDead = true;
       // Play explosion
-      // playerAudio.PlayOneShot(deathSound);
+      playerAudio.PlayOneShot(deathSound);
       
     }
   }

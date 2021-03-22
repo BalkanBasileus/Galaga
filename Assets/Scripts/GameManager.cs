@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
   public bool spawning = false;
   public Text scoreText;
   public Text pointsText;
-  public TextMeshProUGUI gameOverText;
+  public Text gameOverText;
   public Button restartButton;
   public GameObject enemy;
   public GameObject galaga;
@@ -29,23 +29,26 @@ public class GameManager : MonoBehaviour
   private Vector3 startPos = new Vector3(-3, -4.5f, -1);
   private Vector3 lifePos = new Vector3(-5,-9,-1);
 
+  private AudioSource gameAudio;
+  public AudioClip gameOverMusic;
+
   // Start is called before the first frame update
   void Start() {
     isGameActive = true;
     StartCoroutine( SpawnTarget() );
     UpdateScore(0);
     galagaController = GameObject.Find("Galaga").GetComponent<PlayerController>();
+    gameAudio = GetComponent<AudioSource>();
    
   }
 
   // Update is called once per frame
   void Update() {
-
+    // Debug.Log("lives: " + lives.ToString());
     GameObject galaga = GameObject.FindGameObjectWithTag("Galaga");
-    if (!galaga && !spawning && lives > 0) {
+    if (!galaga && !spawning && lives >= 0) {
       lives -= 1;
       StartCoroutine(SpawnGalaga());
-     // Debug.Log("lives: " + lives.ToString());
     }
 
     countDown();
@@ -57,7 +60,15 @@ public class GameManager : MonoBehaviour
      // Attack();
     }
 
-    checkLives();
+    updateLives();
+    
+    if (checkLives()) {
+      GameOver();
+    }
+
+    if( checkWin()) {
+      Debug.Log("Victory Conditions met!");
+    }
   }
   
   public IEnumerator SpawnTarget() {
@@ -97,8 +108,11 @@ public class GameManager : MonoBehaviour
   }
 
   public void GameOver() {
+    GameObject galaga = GameObject.Find("Galaga");
+    Destroy(galaga);
     gameOverText.gameObject.SetActive(true);
-    restartButton.gameObject.SetActive(true);
+    //restartButton.gameObject.SetActive(true);
+    gameAudio.PlayOneShot(gameOverMusic);
     isGameActive = false;
   }
 
@@ -112,7 +126,7 @@ public class GameManager : MonoBehaviour
     attackTime -= Time.deltaTime;
   }
 
-  private void checkLives() {
+  private void updateLives() {
     // Check galaga lives and update UI
 
 
@@ -136,6 +150,33 @@ public class GameManager : MonoBehaviour
       life2.gameObject.SetActive(true);
       life3.gameObject.SetActive(true);
     }
+  }
+
+  private bool checkLives() {
+    // Check if all galaga lives are lost.
+
+    bool gameOver = false;
+
+    if(lives == -1) {
+      gameOver = true;
+    }
+    return gameOver;
+  }
+
+  private bool checkWin() {
+    // check if all enemy bees destroyed.
+    bool won = false;
+
+    GameObject[] enemies = GameObject.FindGameObjectsWithTag("EnemyBee");
+    if ( enemies.Length == 0) {
+      won = true;
+    }
+    return won;
+  }
+
+  private void levelRecap() {
+    // Displays victory and level statistics.
+
   }
   /*
   public IEnumerator displayLives() {

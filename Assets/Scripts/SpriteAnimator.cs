@@ -50,9 +50,10 @@ public class SpriteAnimator : MonoBehaviour
 
       if (!loop && currentFrame == 0) {
         StopPlaying();
-        
+
         // Destroy Galaga or Enemy here, after animation!
         // Cannot call in PlayerController script.
+
         Destroy(gameObject); 
       }
       else {
