@@ -50,6 +50,7 @@ public class PlayerController : MonoBehaviour
       Invoke(nameof(CanShoot), shootInterval); // Prevent player from spamming lasers.
       Instantiate(bulletPrefab, transform.position, bulletPrefab.transform.rotation);
       playerAudio.PlayOneShot(shootSound); // Play laser shot audio
+      
     }
   }
 

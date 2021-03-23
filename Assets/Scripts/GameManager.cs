@@ -20,6 +20,11 @@ public class GameManager : MonoBehaviour
   public Text scoreText;
   public Text pointsText;
   public Text gameOverText;
+  public Text levelCompleteText;
+  public Text shotText;
+  public Text shotDisplayText;
+  public Text accuracyDisplayText;
+  public Text accuracyText;
   public Button restartButton;
   public GameObject enemy;
   public GameObject galaga;
@@ -31,15 +36,22 @@ public class GameManager : MonoBehaviour
 
   private AudioSource gameAudio;
   public AudioClip gameOverMusic;
+  public AudioClip startLevelSound;
+  public AudioClip levelCompleteSound;
+
+  // level statistics
+  int hits;
+  float accuracy;
 
   // Start is called before the first frame update
   void Start() {
-    isGameActive = true;
-    StartCoroutine( SpawnTarget() );
-    UpdateScore(0);
+    
     galagaController = GameObject.Find("Galaga").GetComponent<PlayerController>();
     gameAudio = GetComponent<AudioSource>();
-   
+    gameAudio.PlayOneShot(startLevelSound);
+
+    StartCoroutine(SpawnTarget());
+    UpdateScore(0);
   }
 
   // Update is called once per frame
@@ -61,18 +73,23 @@ public class GameManager : MonoBehaviour
     }
 
     updateLives();
+    recordData();
     
     if (checkLives()) {
       GameOver();
     }
 
     if( checkWin()) {
-      Debug.Log("Victory Conditions met!");
+     levelComplete();
     }
   }
   
   public IEnumerator SpawnTarget() {
+    // Wait 7 seconds for intromusic, spawn enemies quickly.
+    // Set game active to begin. Checkwin() later will
+    // check if enemies are all gone to display levelcomplete().
 
+    yield return new WaitForSeconds(7.0f);
     yield return new WaitForSeconds(spawnRate);
       
     // Spawn Brigade of Enemy Bees. Update pos.
@@ -87,6 +104,9 @@ public class GameManager : MonoBehaviour
       Instantiate(enemy, startPos, enemy.transform.rotation);
       startPos.x += distance;
     }
+
+    // Set active here, otherwise level complete screen starts at beginning.
+    isGameActive = true;
   }
 
   // Spawn Galaga
@@ -108,12 +128,15 @@ public class GameManager : MonoBehaviour
   }
 
   public void GameOver() {
-    GameObject galaga = GameObject.Find("Galaga");
-    Destroy(galaga);
-    gameOverText.gameObject.SetActive(true);
-    //restartButton.gameObject.SetActive(true);
-    gameAudio.PlayOneShot(gameOverMusic);
-    isGameActive = false;
+
+    if (isGameActive) {
+      GameObject galaga = GameObject.Find("Galaga");
+      Destroy(galaga);
+      gameOverText.gameObject.SetActive(true);
+      restartButton.gameObject.SetActive(true);
+      gameAudio.PlayOneShot(gameOverMusic);
+      isGameActive = false;
+    }
   }
 
   public void RestartGame() {
@@ -168,27 +191,53 @@ public class GameManager : MonoBehaviour
     bool won = false;
 
     GameObject[] enemies = GameObject.FindGameObjectsWithTag("EnemyBee");
-    if ( enemies.Length == 0) {
+
+    // If no enemies and game is active, return victory.
+    if ( enemies.Length == 0 && isGameActive) {
       won = true;
     }
     return won;
   }
 
-  private void levelRecap() {
+  private void levelComplete() {
     // Displays victory and level statistics.
 
-  }
-  /*
-  public IEnumerator displayLives() {
+    //Calculate Accuracy and format
+    accuracy = (float)( (8 % hits) * 10);
+    accuracyText.text = "% " + accuracy.ToString();
+    shotText.text = hits.ToString();
 
-    yield return new WaitForSeconds(0.1f);
-
-    for(int i = 0; i < 3; i++) {
-      Instantiate(life, lifePos, enemy.transform.rotation);
-      lifePos.x += 0.5f;
+    // Display level prompt
+    if (isGameActive) {
+      levelCompleteText.gameObject.SetActive(true);
+      //gameAudio.PlayOneShot(levelCompleteSound);
+      //yield return new WaitForSeconds(1.0f);
+      shotText.gameObject.SetActive(true);
+      shotDisplayText.gameObject.SetActive(true);
+      accuracyDisplayText.gameObject.SetActive(true);
+      accuracyText.gameObject.SetActive(true);
+      gameAudio.PlayOneShot(levelCompleteSound);
+      //yield return new WaitForSeconds(1.0f);
+      isGameActive = false;
     }
+    
   }
-  */
+
+  private void OnMouseDown() {
+    // When player clicks restart button
+    restartButton.onClick.AddListener( RestartGame );
+  }
+
+  private void recordData() {
+    // 
+
+    if (Input.GetKeyDown(KeyCode.Space)) {
+      hits++;
+    }
+    
+  }
+
+  //private void statisticDisplay
 
   /*
   void Attack() {
