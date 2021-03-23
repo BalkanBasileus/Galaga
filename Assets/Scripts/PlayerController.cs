@@ -43,7 +43,7 @@ public class PlayerController : MonoBehaviour
     movementBoundries();
 
     // Spacebar shoot
-    if (canShoot && Input.GetKeyDown(KeyCode.Space)) {
+    if ( (canShoot && Input.GetKeyDown(KeyCode.Space) ) || (canShoot && Input.GetKeyDown(KeyCode.Z) ) ) {
 
       // Shoot first, ask questions later.
       canShoot = false;

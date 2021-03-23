@@ -40,7 +40,7 @@ public class GameManager : MonoBehaviour
   public AudioClip levelCompleteSound;
 
   // level statistics
-  int hits;
+  float hits;
   float accuracy;
 
   // Start is called before the first frame update
@@ -203,7 +203,7 @@ public class GameManager : MonoBehaviour
     // Displays victory and level statistics.
 
     //Calculate Accuracy and format
-    accuracy = (float)( (8 % hits) * 10);
+    accuracy = ( (8.0f / hits) * 100f);
     accuracyText.text = "% " + accuracy.ToString();
     shotText.text = hits.ToString();
 
@@ -231,7 +231,7 @@ public class GameManager : MonoBehaviour
   private void recordData() {
     // 
 
-    if (Input.GetKeyDown(KeyCode.Space)) {
+    if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Z)) {
       hits++;
     }
     
