@@ -11,12 +11,13 @@ public class GameManager : MonoBehaviour
   // public List<GameObject> targets;
   private float spawnRate = 0.1f;
   private float distance = 0.5f;
-  private float attackTime = 2.0f;
+  //private float attackTime = 2.0f;
   private int score;
   private int maxColumn = 10;
   private int lives = 3;
   public bool isGameActive;
   public bool spawning = false;
+  private bool attacker = false;
   public Text scoreText;
   public Text pointsText;
   public Text gameOverText;
@@ -38,6 +39,9 @@ public class GameManager : MonoBehaviour
   public AudioClip gameOverMusic;
   public AudioClip startLevelSound;
   public AudioClip levelCompleteSound;
+  public AudioClip enemyBeeAttackSound;
+
+  private List<GameObject> targets;
 
   // level statistics
   float hits;
@@ -56,22 +60,14 @@ public class GameManager : MonoBehaviour
 
   // Update is called once per frame
   void Update() {
-    // Debug.Log("lives: " + lives.ToString());
+
     GameObject galaga = GameObject.FindGameObjectWithTag("Galaga");
     if (!galaga && !spawning && lives >= 0) {
       lives -= 1;
       StartCoroutine(SpawnGalaga());
     }
 
-    countDown();
- 
-    // Initiate attack every n seconds.
-    if (attackTime == 0) {
-
-     // StartCoroutine(ChooseAttackForce());
-     // Attack();
-    }
-
+    //countDown();
     updateLives();
     recordData();
     
@@ -82,6 +78,8 @@ public class GameManager : MonoBehaviour
     if( checkWin()) {
      levelComplete();
     }
+
+    ChooseAttacker();
   }
   
   public IEnumerator SpawnTarget() {
@@ -102,7 +100,12 @@ public class GameManager : MonoBehaviour
       }
 
       Instantiate(enemy, startPos, enemy.transform.rotation);
+     // GameObject thisEnemy = Instantiate(enemy, startPos, enemy.transform.rotation);
       startPos.x += distance;
+
+      // Append
+     // targets.Add(thisEnemy);
+     // Debug.Log("targets count: " + targets.Count.ToString());
     }
 
     // Set active here, otherwise level complete screen starts at beginning.
@@ -144,10 +147,10 @@ public class GameManager : MonoBehaviour
   }
 
   // Display time countdown
-  private void countDown() {
+ // private void countDown() {
 
-    attackTime -= Time.deltaTime;
-  }
+   // attackTime -= Time.deltaTime;
+ // }
 
   private void updateLives() {
     // Check galaga lives and update UI
@@ -237,18 +240,6 @@ public class GameManager : MonoBehaviour
     
   }
 
-  //private void statisticDisplay
-
-  /*
-  void Attack() {
-    //enemy.transform.parent = null;
-   // specificEnemy = GameObject.FindGameObjectWithTag("EnemyBee");
-
-    EnemyController enemyBee = specificEnemy.GetComponent<EnemyController>();
-    enemyBee.attackVector();
-  }
-  */
-
   public void attackVector() {
     Vector3 pos = transform.position;
     pos.z = -1.0f;
@@ -263,26 +254,18 @@ public class GameManager : MonoBehaviour
     transform.position = pos;
   }
 
-  /*
-  IEnumerator ChooseAttackForce() {
-    yield return new WaitForSeconds(1);
 
-    if (!specificEnemy && GameObject.FindGameObjectWithTag("Galaga")) {
-      //var enemyCount = GetEnemyCount();
-      //if (enemyCount == 0) {
-       // yield return new WaitForSeconds(1);
-    //  }
-      int attackerIndex = Random.Range(0, enemyCount);
-      foreach (GameObject enemy in enemies) {
-        if (enemy) {
-          enemyCount -= 1;
-        }
-        if (enemyCount == attackerIndex) {
-          specificEnemy = enemy;
-        }
-      }
+  public void ChooseAttacker() {
+
+    GameObject target = GameObject.FindGameObjectWithTag("EnemyBee");
+    if (target && galaga && lives >= 0) {
+
+      EnemyController targetScript = target.GetComponent<EnemyController>();
+      targetScript.startAttack();
+      //gameAudio.PlayOneShot(enemyBeeAttackSound);
+      //Debug.Log("attack sound called more than once...problem here.");
+
     }
   }
-  */
 
 }
