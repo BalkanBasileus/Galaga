@@ -10,13 +10,11 @@ public class EnemyController : MonoBehaviour
 {
   // Class Variables
   public float speed;
-  //private float shootInterval = 10.0f;
- // private float attackTime = 5.0f;
   public int direction = 1;
   private int pointValue = 100;
   private Vector3 startPosition;
   private float travelDistance = 0.5f;
-  public float shootInterval = 10.0f;
+  public float shootInterval = 0.2f;
   public bool canShoot = true;
   private bool startAttackVector = false;
 
@@ -66,7 +64,7 @@ public class EnemyController : MonoBehaviour
 
     if (canShoot) {
       canShoot = false;
-      Invoke(nameof(CanShootNow), shootInterval); // Prevent enemy from spamming shoot in Gamanager Update() method.
+      InvokeRepeating(nameof(CanShootNow), 2.0f, shootInterval); // Prevent enemy from spamming shoot in Gamanager Update() method.
       Instantiate(bulletPrefab, transform.position, bulletPrefab.transform.rotation);
     }
   }
@@ -87,10 +85,10 @@ public class EnemyController : MonoBehaviour
     //pos.z = -1.0f;
 
     if (pos.y < -10.0f) {
-      pos.y = 0.0f;
+      pos.y = -3.5f;
     }
 
-    var speed = 1.0f;
+    var speed = 2.0f;
     pos.y = pos.y - Time.deltaTime * speed;
     if (pos.x < 0) {
       pos.x = Mathf.Sin(pos.y) * 2 * -1;

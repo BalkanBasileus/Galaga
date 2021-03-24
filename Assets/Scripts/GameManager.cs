@@ -18,6 +18,7 @@ public class GameManager : MonoBehaviour
   public bool isGameActive;
   public bool spawning = false;
   private bool attacker = false;
+  private bool soundPlayed = false;
   public Text scoreText;
   public Text pointsText;
   public Text gameOverText;
@@ -240,20 +241,6 @@ public class GameManager : MonoBehaviour
     
   }
 
-  public void attackVector() {
-    Vector3 pos = transform.position;
-    pos.z = -1.0f;
-
-    if (pos.y < -10.0f) {
-      pos.y = 1.0f;
-    }
-
-    var speed = 1.0f;
-    pos.y = pos.y - Time.deltaTime * speed;
-    pos.x = Mathf.Sin(pos.y) * 3;
-    transform.position = pos;
-  }
-
 
   public void ChooseAttacker() {
 
@@ -262,8 +249,16 @@ public class GameManager : MonoBehaviour
 
       EnemyController targetScript = target.GetComponent<EnemyController>();
       targetScript.startAttack();
-      //gameAudio.PlayOneShot(enemyBeeAttackSound);
-      //Debug.Log("attack sound called more than once...problem here.");
+
+      if (!soundPlayed) {
+        gameAudio.PlayOneShot(enemyBeeAttackSound);
+        //Debug.Log("attack sound called more than once...problem here.");
+        soundPlayed = true;
+      }
+
+      if (!target) {
+        soundPlayed = false;
+      }
 
     }
   }
