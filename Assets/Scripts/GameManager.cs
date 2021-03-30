@@ -17,7 +17,6 @@ public class GameManager : MonoBehaviour
   private int currentLevel = 1;
   public bool isGameActive;
   public bool spawning = false;
-  private bool attacker = false;
   private bool soundPlayed = false;
   public Text scoreText;
   public Text pointsText;
@@ -104,9 +103,9 @@ public class GameManager : MonoBehaviour
     }
     if (stagesComplete == 2) {
       spawnEnemyRow();
-      startPos.y -= 1.0f;
+      startPos.y -= 0.5f;
       spawnEnemyRow();
-      startPos.y -= 1.5f;
+      startPos.y -= 1.0f;
       spawnEnemyRow();
     }
 
@@ -162,10 +161,10 @@ public class GameManager : MonoBehaviour
 
     stagesComplete++;
 
-    // If all stages complete, Load credits scene. ********************************Work Here*****************************
+    //********************************Work Here*****************************
 
     // If all three stages complete, load credits scene
-    //if(stagesComplete == 4) {}
+    if(stagesComplete == 3) { SceneManager.LoadScene("Credits", LoadSceneMode.Single); }
 
     gameAudio.PlayOneShot(startLevelSound);
     StartCoroutine(SpawnTarget());
