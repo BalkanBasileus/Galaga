@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
   private int maxColumn = 10;
   private int lives = 3;
   private int stagesComplete = 0;
+  private int currentLevel = 1;
   public bool isGameActive;
   public bool spawning = false;
   private bool attacker = false;
@@ -73,11 +74,11 @@ public class GameManager : MonoBehaviour
     updateLives();
     recordData();
     
-    if (checkLives()) {
+    if (checkLives()) { 
       GameOver();
     }
 
-    if( checkWin()) {
+    if( checkWin() && isGameActive ) { 
      levelComplete();
     }
 
@@ -88,7 +89,8 @@ public class GameManager : MonoBehaviour
     // Wait 7 seconds for intromusic, spawn enemies quickly.
     // Set game active to begin. Checkwin() later will
     // check if enemies are all gone to display levelcomplete().
-
+   
+    
     yield return new WaitForSeconds(7.0f);
     yield return new WaitForSeconds(spawnRate);
 
@@ -107,6 +109,7 @@ public class GameManager : MonoBehaviour
       startPos.y -= 1.5f;
       spawnEnemyRow();
     }
+    // If all stages complete, Load credits scene. ********************************Work Here*****************************
 
     // Set active here, otherwise level complete screen starts at beginning.
     isGameActive = true;
@@ -144,12 +147,12 @@ public class GameManager : MonoBehaviour
 
   public void RestartGame() {
     SceneManager.LoadScene(SceneManager.GetActiveScene().name);
-    Debug.Log("Button clicked");
   }
 
   public void ContinueButton() {
     // Call Start() code. Spawn new wave and start new level.
     // Do this without loading new scene.
+    gameAudio.PlayOneShot(levelCompleteSound);
 
     levelCompleteText.gameObject.SetActive(false);
     shotText.gameObject.SetActive(false);
@@ -157,11 +160,12 @@ public class GameManager : MonoBehaviour
     accuracyDisplayText.gameObject.SetActive(false);
     accuracyText.gameObject.SetActive(false);
     continueButton.gameObject.SetActive(false);
-    isGameActive = true;
+
     stagesComplete++;
 
     gameAudio.PlayOneShot(startLevelSound);
     StartCoroutine(SpawnTarget());
+    currentLevel++;
   }
 
   private void updateLives() {
@@ -224,6 +228,7 @@ public class GameManager : MonoBehaviour
 
     // Display level prompt
     if (isGameActive) {
+      levelCompleteText.text = "Stage " + currentLevel.ToString() + " Complete";
       levelCompleteText.gameObject.SetActive(true);
       //gameAudio.PlayOneShot(levelCompleteSound);
       //yield return new WaitForSeconds(1.0f);
@@ -286,5 +291,4 @@ public class GameManager : MonoBehaviour
     // when spawning more than one wave.
     startPos = defaultStartPos;
   }
-
 }
