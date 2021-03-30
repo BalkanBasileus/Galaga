@@ -109,7 +109,6 @@ public class GameManager : MonoBehaviour
       startPos.y -= 1.5f;
       spawnEnemyRow();
     }
-    // If all stages complete, Load credits scene. ********************************Work Here*****************************
 
     // Set active here, otherwise level complete screen starts at beginning.
     isGameActive = true;
@@ -163,9 +162,15 @@ public class GameManager : MonoBehaviour
 
     stagesComplete++;
 
+    // If all stages complete, Load credits scene. ********************************Work Here*****************************
+
+    // If all three stages complete, load credits scene
+    //if(stagesComplete == 4) {}
+
     gameAudio.PlayOneShot(startLevelSound);
     StartCoroutine(SpawnTarget());
     currentLevel++;
+    hits = 0;   // Reset for next level
   }
 
   private void updateLives() {
