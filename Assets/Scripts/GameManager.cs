@@ -8,13 +8,12 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
   // Variables
-  // public List<GameObject> targets;
   private float spawnRate = 0.1f;
   private float distance = 0.5f;
-  //private float attackTime = 2.0f;
   private int score;
   private int maxColumn = 10;
   private int lives = 3;
+  private int stagesComplete = 0;
   public bool isGameActive;
   public bool spawning = false;
   private bool attacker = false;
@@ -28,14 +27,15 @@ public class GameManager : MonoBehaviour
   public Text accuracyDisplayText;
   public Text accuracyText;
   public Button restartButton;
+  public Button continueButton;
   public GameObject enemy;
   public GameObject galaga;
   public Image life1,life2,life3;
   private EnemyController enemyController;
   private PlayerController galagaController;
   private Vector3 startPos = new Vector3(-3, -4.5f, -1);
-  private Vector3 lifePos = new Vector3(-5,-9,-1);
-
+  private Vector3 defaultStartPos = new Vector3(-3, -4.5f, -1);
+  
   private AudioSource gameAudio;
   public AudioClip gameOverMusic;
   public AudioClip startLevelSound;
@@ -52,6 +52,7 @@ public class GameManager : MonoBehaviour
   void Start() {
     
     galagaController = GameObject.Find("Galaga").GetComponent<PlayerController>();
+    restartButton.onClick.AddListener(RestartGame);
     gameAudio = GetComponent<AudioSource>();
     gameAudio.PlayOneShot(startLevelSound);
 
@@ -90,23 +91,21 @@ public class GameManager : MonoBehaviour
 
     yield return new WaitForSeconds(7.0f);
     yield return new WaitForSeconds(spawnRate);
-      
-    // Spawn Brigade of Enemy Bees. Update pos.
-    for(int i = 0; i< maxColumn; i++) {
-      
-      // Provide space for two main columns
-      if(i % 5 == 0) {
-        startPos.x += distance;
-        continue;
-      }
 
-      Instantiate(enemy, startPos, enemy.transform.rotation);
-     // GameObject thisEnemy = Instantiate(enemy, startPos, enemy.transform.rotation);
-      startPos.x += distance;
-
-      // Append
-     // targets.Add(thisEnemy);
-     // Debug.Log("targets count: " + targets.Count.ToString());
+    if (stagesComplete == 0) {
+      spawnEnemyRow();
+    }
+    if (stagesComplete == 1) {
+      spawnEnemyRow();
+      startPos.y -= 0.5f;
+      spawnEnemyRow();
+    }
+    if (stagesComplete == 2) {
+      spawnEnemyRow();
+      startPos.y -= 1.0f;
+      spawnEnemyRow();
+      startPos.y -= 1.5f;
+      spawnEnemyRow();
     }
 
     // Set active here, otherwise level complete screen starts at beginning.
@@ -145,13 +144,25 @@ public class GameManager : MonoBehaviour
 
   public void RestartGame() {
     SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    Debug.Log("Button clicked");
   }
 
-  // Display time countdown
- // private void countDown() {
+  public void ContinueButton() {
+    // Call Start() code. Spawn new wave and start new level.
+    // Do this without loading new scene.
 
-   // attackTime -= Time.deltaTime;
- // }
+    levelCompleteText.gameObject.SetActive(false);
+    shotText.gameObject.SetActive(false);
+    shotDisplayText.gameObject.SetActive(false);
+    accuracyDisplayText.gameObject.SetActive(false);
+    accuracyText.gameObject.SetActive(false);
+    continueButton.gameObject.SetActive(false);
+    isGameActive = true;
+    stagesComplete++;
+
+    gameAudio.PlayOneShot(startLevelSound);
+    StartCoroutine(SpawnTarget());
+  }
 
   private void updateLives() {
     // Check galaga lives and update UI
@@ -221,19 +232,14 @@ public class GameManager : MonoBehaviour
       accuracyDisplayText.gameObject.SetActive(true);
       accuracyText.gameObject.SetActive(true);
       gameAudio.PlayOneShot(levelCompleteSound);
-      //yield return new WaitForSeconds(1.0f);
+      continueButton.gameObject.SetActive(true);
       isGameActive = false;
     }
     
   }
 
-  private void OnMouseDown() {
-    // When player clicks restart button
-    restartButton.onClick.AddListener( RestartGame );
-  }
-
   private void recordData() {
-    // 
+    // Record shots fired. Later we will divide # of enemies by shots fired.
 
     if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Z)) {
       hits++;
@@ -261,6 +267,24 @@ public class GameManager : MonoBehaviour
       }
 
     }
+  }
+
+  private void spawnEnemyRow() {
+    // Spawn Brigade of Enemy Bees. Update pos.
+    for (int i = 0; i < maxColumn; i++) {
+
+      // Provide space for two main columns
+      if (i % 5 == 0) {
+        startPos.x += distance;
+        continue;
+      }
+
+      Instantiate(enemy, startPos, enemy.transform.rotation);
+      startPos.x += distance;
+    }
+    // Reset for next wave. Code in IEneumerator will decrement .y
+    // when spawning more than one wave.
+    startPos = defaultStartPos;
   }
 
 }
