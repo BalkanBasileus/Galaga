@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 6608929254581017102}
   - component: {fileID: 6608929254581017103}
   - component: {fileID: 6608929254581017088}
-  - component: {fileID: 6608929254581017089}
   - component: {fileID: 6608929254581017090}
+  - component: {fileID: 6608929254581017089}
   - component: {fileID: 6608929254581017091}
   m_Layer: 0
   m_Name: Galaga
@@ -97,7 +97,7 @@ PolygonCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -158,24 +158,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &6608929254581017089
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6608929254581017092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5a1bb090c6c149240a117b06d81ad973, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 5
-  shootInterval: 0.3
-  gameOver: 0
-  bulletPrefab: {fileID: 9009489791002919436, guid: 3f49e6c85130eb44fb6fe79ad002a118, type: 3}
-  shootSound: {fileID: 8300000, guid: bc2256cd6372eee438567af951fb7929, type: 3}
-  deathSound: {fileID: 8300000, guid: 0c1341b4f06b64d4a946d83c34ecf48a, type: 3}
 --- !u!82 &6608929254581017090
 AudioSource:
   m_ObjectHideFlags: 0
@@ -272,6 +254,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6608929254581017089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6608929254581017092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a1bb090c6c149240a117b06d81ad973, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 5
+  shootInterval: 0.3
+  gameOver: 0
+  bulletPrefab: {fileID: 9009489791002919436, guid: 3f49e6c85130eb44fb6fe79ad002a118, type: 3}
+  shootSound: {fileID: 8300000, guid: bc2256cd6372eee438567af951fb7929, type: 3}
+  deathSound: {fileID: 8300000, guid: 839fe6c5e1f284044849cd1dc757529b, type: 3}
 --- !u!114 &6608929254581017091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,3 +289,4 @@ MonoBehaviour:
   - {fileID: 4703509520341078336, guid: 992d4d968ebf76945baa1d887514b7b0, type: 3}
   - {fileID: 344336923103916608, guid: 992d4d968ebf76945baa1d887514b7b0, type: 3}
   - {fileID: -1157247778931301337, guid: 992d4d968ebf76945baa1d887514b7b0, type: 3}
+  framerate: 0.15
