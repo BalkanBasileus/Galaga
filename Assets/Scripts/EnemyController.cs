@@ -1,7 +1,7 @@
-/*///////////////////////////////////////////////////////////////////////
+/*
  *
- * Note: Never start a coroutine in Update(). Else continuous.
- //////////////////////////////////////////////////////////////////////*/
+ * 
+ */
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,12 +9,13 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
   // Class Variables
-  public float speed;
+  [SerializeField] public float speed;
+  [SerializeField] public float timer = 10;
+  [SerializeField] public float shootInterval = 2.0f;
+  private float travelDistance = 0.5f;
   public int direction = 1;
   private int pointValue = 100;
   private Vector3 startPosition;
-  private float travelDistance = 0.5f;
-  public float shootInterval = 0.2f;
   public bool canShoot = true;
   private bool startAttackVector = false;
 
@@ -64,7 +65,7 @@ public class EnemyController : MonoBehaviour
 
     if (canShoot) {
       canShoot = false;
-      InvokeRepeating(nameof(CanShootNow), 2.0f, shootInterval); // Prevent enemy from spamming shoot in Gamanager Update() method.
+      Invoke(nameof(CanShootNow), shootInterval);
       Instantiate(bulletPrefab, transform.position, bulletPrefab.transform.rotation);
     }
   }
@@ -77,6 +78,9 @@ public class EnemyController : MonoBehaviour
       // Update Score
       enemyAudio.PlayOneShot(deathNoise);
       gameManager.UpdateScore(pointValue);
+    }
+    if (other.gameObject.CompareTag("Galaga")) {
+      enemyAudio.PlayOneShot(deathNoise);
     }
   }
 
@@ -97,6 +101,10 @@ public class EnemyController : MonoBehaviour
       pos.x = Mathf.Sin(pos.y) * 2;
     }
     transform.position = pos;
+
+    // Attack for 10 seconds. Destory if not hit.
+    timer -= Time.deltaTime;
+    if(timer < 0) { Destroy(this.gameObject); }
   }
 
   public void startAttack() {

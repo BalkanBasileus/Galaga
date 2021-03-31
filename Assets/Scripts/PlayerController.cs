@@ -10,7 +10,7 @@ public class PlayerController : MonoBehaviour
   // Class Variables
   public float speed;
   private float horizontalInput;
-  private float xRange = 4.2f;
+  private float xRange = 3.70f;
   public float shootInterval = 0.8f;
   public bool gameOver = false;
   private bool canShoot = true;

@@ -61,15 +61,6 @@ public class SpriteAnimator : MonoBehaviour
       }
     }
   }
-  /*
-  public void PlayAnimation(Sprite[] frameArray) {
-    //
-    this.frameArray = frameArray;
-    currentFrame = 0;
-    timer = 0f;
-    spriteRenderer.sprite = frameArray[currentFrame];
-  }
-  */
 
   private void OnTriggerEnter2D( Collider2D other ) {
     
@@ -80,6 +71,16 @@ public class SpriteAnimator : MonoBehaviour
     }
     // If Enemy hit
     if (other.gameObject.CompareTag("Bullet") && gameObject.CompareTag("EnemyBee") ) {
+
+      hit = true;
+    }
+    // If Galaga collides with Bee
+    if( other.gameObject.CompareTag("EnemyBee") && gameObject.CompareTag("Galaga") ) {
+
+      hit = true;
+    }
+    // If Bee collides with Galaga
+    if (other.gameObject.CompareTag("Galaga") && gameObject.CompareTag("EnemyBee")) {
 
       hit = true;
     }
